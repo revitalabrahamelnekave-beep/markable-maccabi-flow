@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>MARKABLE x מכבי - מסע המטופלת</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pk:#D1409C;--pk-deep:#B22F84;--navy:#1a1a2e;--muted:#5c5c6e;
+  --bg:#f2f2f7;--card:#fff;--green:#1A7A3B;--blue:#2E6BE6;--amber:#B8860B;--orange:#C4622D;--red:#C0392B;
+  --line:#ececf0;--wash:#faf5f9;--font:'Heebo',-apple-system,system-ui,Segoe UI,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:#14141c;font-family:var(--font)}
+.stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a1a2e,#2d1b3d,#1a1a2e)}
+.phone{width:390px;height:844px;max-height:calc(100vh - 24px);max-width:calc(100vw - 24px);background:#000;border-radius:50px;position:relative;box-shadow:0 0 0 3px #333,0 0 0 6px #14141c,0 24px 80px rgba(0,0,0,.6);overflow:hidden;display:flex;flex-direction:column}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:120px;height:33px;background:#000;border-radius:18px;z-index:100}
+.badge{position:fixed;top:16px;right:16px;z-index:400;background:var(--pk);color:#fff;font-size:10px;font-weight:800;padding:4px 12px;border-radius:8px;letter-spacing:1.5px}
+.screenwrap{flex:1;background:var(--bg);border-radius:46px;overflow:hidden;display:flex;flex-direction:column;position:relative}
+.statusbar{height:52px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 30px 6px;font-size:14px;font-weight:700;color:#000;background:#fff;flex-shrink:0;z-index:50}
+.statusbar.dark{background:#000;color:#fff}
+.sicons{display:flex;gap:5px;align-items:center}
+.progress{height:2px;background:#eee;flex-shrink:0}
+.progress .fill{height:100%;background:var(--pk);width:0;transition:width .4s}
+.progress.hide{display:none}
+.content{flex:1;position:relative;overflow:hidden}
+.scr{position:absolute;inset:0;opacity:0;pointer-events:none;transform:translateX(-26px);transition:opacity .35s,transform .35s;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;direction:rtl}
+.scr.active{opacity:1;pointer-events:auto;transform:none}
+.scr.exit{opacity:0;transform:translateX(26px)}
+.pad{padding:18px 20px}
+.foot{margin-top:auto;padding:14px 20px 18px;flex-shrink:0}
+.homebar{height:26px;display:flex;align-items:center;justify-content:center;background:#fff;flex-shrink:0}
+.homebar .h{width:130px;height:5px;border-radius:3px;background:#000;opacity:.18}
+.powered{background:#f7f7f9;padding:6px;text-align:center;font-size:9px;color:#8a8a94;letter-spacing:.5px;flex-shrink:0;direction:ltr}
+.powered img{height:12px;vertical-align:middle;margin-right:4px;opacity:.85}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px 18px;border-radius:14px;font-family:var(--font);font-size:15px;font-weight:700;border:none;cursor:pointer;transition:transform .12s}
+.btn:active{transform:scale(.98)}
+.btn-pk{background:var(--pk);color:#fff;box-shadow:0 8px 22px rgba(209,64,156,.26)}
+.btn-out{background:#fff;color:var(--pk);border:1.5px solid var(--pk)}
+.btn:disabled{opacity:.4;cursor:default}
+
+h2.t{font-size:22px;font-weight:800;color:var(--navy);line-height:1.22}
+.ey{font-size:10.5px;font-weight:800;letter-spacing:.06em;color:var(--pk);margin-bottom:6px}
+.sub{font-size:14px;color:var(--muted);line-height:1.6}
+.disc{font-size:10px;color:#a7a7b0;line-height:1.45;text-align:center;margin-top:8px}
+
+/* lock / SMS */
+.lock{background:linear-gradient(180deg,#c8d3ef,#dfe0e6);padding:64px 22px 30px;text-align:center;min-height:100%}
+.lock .time{font-size:70px;font-weight:200;color:#12121a;letter-spacing:-2px}
+.lock .date{font-size:16px;color:#2a2a34;margin-bottom:44px}
+.notif{background:rgba(255,255,255,.88);backdrop-filter:blur(20px);border-radius:20px;padding:14px 15px;text-align:right;box-shadow:0 6px 22px rgba(0,0,0,.12);cursor:pointer;transition:transform .15s}
+.notif:active{transform:scale(.98)}
+.notif .nh{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.notif .ic{width:26px;height:26px;border-radius:7px;background:#00A651;display:flex;align-items:center;justify-content:center}
+.notif .nm{font-size:12px;font-weight:700;color:#333}
+.notif .nt{font-size:11px;color:#888;margin-inline-start:auto}
+.notif .nb{font-size:14px;color:#111;line-height:1.55}
+.notif .nb b{color:var(--pk-deep)}
+.taphint{margin-top:22px;font-size:11px;color:#3a3a46;opacity:.75}
+
+/* steps */
+.steps{background:#fff;border:1px solid var(--line);border-radius:14px;padding:6px 14px;margin:12px 0}
+.stp{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid #f2f2f5}
+.stp:last-child{border-bottom:none}
+.stp .n{flex:none;width:26px;height:26px;border-radius:8px;background:var(--wash);color:var(--pk);font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center}
+.stp h4{font-size:14px;font-weight:700;color:var(--navy)}
+.stp p{font-size:11.5px;color:var(--muted);line-height:1.45}
+.stages{display:flex;gap:8px;margin:12px 0 8px}
+.stage-box{flex:1;border-radius:11px;padding:9px 11px}
+.stage-box.now{background:rgba(209,64,156,.05);border:1px solid rgba(209,64,156,.14)}
+.stage-box.later{background:#fafafa;border:1px solid var(--line)}
+.stage-box .sl{font-size:10px;font-weight:800}
+.stage-box.now .sl{color:var(--pk)}
+.stage-box.later .sl{color:#999}
+.stage-box .sd{font-size:10.5px;color:var(--muted);line-height:1.35;margin-top:2px}
+
+/* consent */
+.cItem{display:flex;gap:10px;align-items:flex-start;padding:11px 0;border-bottom:1px solid #f2f2f5;cursor:pointer}
+.cItem:last-child{border-bottom:none}
+.cbox{width:20px;height:20px;border-radius:6px;border:2px solid #d5d5dd;flex:none;display:flex;align-items:center;justify-content:center;transition:.15s;margin-top:1px}
+.cbox.on{background:var(--pk);border-color:var(--pk)}
+.cbox.on::after{content:"";width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg);margin-top:-2px}
+.cItem .ct{font-size:12px;color:#444;line-height:1.5}
+.tagr{font-size:9px;font-weight:800;padding:1px 6px;border-radius:4px;background:var(--wash);color:var(--pk);margin-inline-start:4px}
+.tago{font-size:9px;font-weight:700;padding:1px 6px;border-radius:4px;background:#f0f0f3;color:#999;margin-inline-start:4px}
+
+/* questionnaire */
+.q h4{font-size:13px;font-weight:700;color:var(--navy);margin:14px 0 7px}
+.qrow{display:flex;gap:8px}
+.qopt{flex:1;padding:11px;border-radius:11px;border:2px solid #eee;font-size:13px;font-weight:600;color:#444;text-align:center;cursor:pointer;transition:.15s}
+.qopt.sel{border-color:var(--pk);background:var(--wash);color:var(--pk)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:8px 12px;border-radius:16px;border:2px solid #eee;font-size:12px;font-weight:600;color:#555;cursor:pointer;transition:.15s}
+.chip.sel{border-color:var(--pk);background:var(--wash);color:var(--pk)}
+.inp{width:110px;padding:10px 12px;border-radius:10px;border:2px solid #eee;font-size:15px;font-weight:700;font-family:var(--font);text-align:center}
+.rf-note{display:none;margin-top:10px;background:#fff4e0;border:1px solid #f1d3a1;border-radius:10px;padding:9px 12px;font-size:11px;color:#8a6100;line-height:1.5}
+
+/* scan */
+.scanfull{background:#000;height:100%;position:relative}
+.scanfull video{width:100%;height:100%;object-fit:cover}
+
+/* analyzing */
+.analyz{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;background:#fff;text-align:center;padding:30px}
+.spin{width:52px;height:52px;border:4px solid #f0e3ee;border-top-color:var(--pk);border-radius:50%;animation:sp 1s linear infinite;margin-bottom:20px}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* category gauge (no numbers) */
+.catwrap{text-align:center;margin:16px 0 6px}
+.catpill{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:800;padding:8px 16px;border-radius:20px}
+.catpill::before{content:'';width:9px;height:9px;border-radius:50%;background:currentColor}
+.catgauge{display:flex;gap:5px;max-width:230px;margin:12px auto 0}
+.catseg{flex:1;height:7px;border-radius:4px;background:#e9e9ee}
+.rows{background:#fff;border:1px solid var(--line);border-radius:14px;padding:4px 14px;margin-top:4px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #f2f2f5}
+.row:last-child{border-bottom:none}
+.row .rn{font-size:13px;color:#333;font-weight:600}
+.row .rl{font-size:12px;font-weight:800;display:inline-flex;align-items:center;gap:7px}
+.row .rl::before{content:'';width:8px;height:8px;border-radius:50%;background:currentColor}
+
+/* summary */
+.mini{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px 15px;margin-bottom:9px}
+.mini .mi{width:40px;height:40px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px}
+.mini .ml{flex:1}
+.mini h4{font-size:14px;font-weight:700;color:var(--navy)}
+.mini p{font-size:11px;color:var(--muted)}
+.mtag{font-size:11px;font-weight:800;padding:4px 11px;border-radius:12px;white-space:nowrap}
+.legend{background:#fafafb;border:1px solid var(--line);border-radius:12px;padding:11px 14px;margin:10px 0 14px}
+.legend .li{display:flex;align-items:center;gap:9px;font-size:11.5px;color:#555;line-height:1.5}
+.legend .li+.li{margin-top:5px}
+.legend .d{width:10px;height:10px;border-radius:50%;flex:none}
+
+/* tools */
+.toolgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.tool{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px 12px}
+.tool .ti{width:32px;height:32px;border-radius:9px;background:var(--wash);display:flex;align-items:center;justify-content:center;margin-bottom:7px}
+.tool h4{font-size:13px;font-weight:700;color:var(--navy)}
+.tool p{font-size:10.5px;color:var(--muted);line-height:1.4;margin-top:2px}
+.tool .ev{font-size:8.5px;font-weight:800;color:var(--pk);letter-spacing:.02em;margin-top:6px}
+
+/* report */
+.repcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px 16px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.rephead{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--navy);padding-bottom:9px;margin-bottom:11px}
+.repbrand{display:flex;align-items:center;gap:7px;font-weight:800;font-size:13px}
+.repbrand .m1{color:#003B7B}.repbrand .m2{color:var(--pk)}
+.repsec{font-size:10px;font-weight:800;letter-spacing:.04em;color:var(--navy);margin:13px 0 4px;padding-top:9px;border-top:1px solid #f0f0f3}
+.repchips{display:flex;gap:6px;flex-wrap:wrap}
+.repchip{font-size:11px;font-weight:700;padding:5px 11px;border-radius:14px}
+
+/* close */
+.done{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;padding:36px 26px;background:linear-gradient(180deg,#fff,var(--wash))}
+.done .ic{width:74px;height:74px;border-radius:20px;background:#fff;box-shadow:0 10px 30px rgba(209,64,156,.18);display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.appt{background:rgba(46,107,230,.06);border:1px solid rgba(46,107,230,.14);border-radius:12px;padding:13px 16px;font-size:13px;color:#333;line-height:1.55;margin-top:16px}
+
+/* nav */
+.nav{position:fixed;right:calc(50% - 250px);top:50%;transform:translate(100%,-50%);margin-right:-24px;z-index:300;display:flex;flex-direction:column;gap:10px;width:184px;direction:rtl}
+.nav .h{font-size:11px;font-weight:800;color:#e6a9d3;text-align:center;letter-spacing:.03em}
+.nav .arrows{display:flex;flex-direction:column;gap:6px}
+.nav .a{display:flex;align-items:center;gap:9px;padding:11px 15px;border-radius:11px;background:#fff;border:1.5px solid #2a2a38;cursor:pointer;transition:.15s}
+.nav .a:hover{border-color:var(--pk)}
+.nav .a svg{width:16px;height:16px}
+.nav .a span{font-size:12px;font-weight:700;color:#444}
+.nav .jump{background:#fff;border-radius:12px;padding:8px 6px;max-height:460px;overflow-y:auto}
+.nav .j{font-size:11px;color:#666;padding:6px 10px;border-radius:8px;cursor:pointer;font-weight:600;text-align:right}
+.nav .j:hover{background:var(--wash);color:var(--pk)}
+.nav .j.on{background:var(--wash);color:var(--pk);font-weight:800}
+.nav .back{font-size:11px;color:#c9c9d6;text-align:center;padding:8px;cursor:pointer;text-decoration:none;display:block}
+.srow{display:flex;align-items:center;gap:8px;padding:10px 2px;border-bottom:1px solid #f2f2f5}
+.srow:last-child{border-bottom:none}
+.srow .sn{font-size:13px;font-weight:600;color:#333;flex:1;min-width:0}
+.srow .sanchor{font-size:10.5px;color:#aaa;white-space:nowrap}
+.stepper{display:flex;align-items:center;gap:7px}
+.stepper button{width:26px;height:26px;border-radius:8px;border:1.5px solid var(--line);background:#fff;font-size:15px;font-weight:800;color:var(--pk);cursor:pointer;line-height:1;padding:0}
+.stepper span{width:18px;text-align:center;font-size:14px;font-weight:800}
+.sdir{font-size:11px;font-weight:800;width:52px;text-align:left;white-space:nowrap}
+.sst{display:flex;align-items:center;gap:9px;font-size:13.5px;color:#999;padding:8px 0;border-bottom:1px solid #f4f4f6}
+.sst:last-child{border-bottom:none}
+.sst .dot{width:20px;text-align:center;font-weight:800;color:#ccc}
+.sst.done{color:#1a1a2e;font-weight:600}
+.sst.done .dot{color:#0a7c42}
+.donetopic{font-size:13px;color:#444;padding:3px 0}
+.remcard{display:flex;align-items:flex-start;gap:11px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.remcard .ri{width:34px;height:34px;border-radius:10px;background:var(--wash);display:flex;align-items:center;justify-content:center;flex:none}
+.remcard .rc{flex:1;min-width:0}
+.remcard h4{font-size:13.5px;font-weight:700;color:var(--navy)}
+.remcard .rd{font-size:12px;color:var(--pk);font-weight:600;margin-top:1px}
+.remcard .rn{font-size:10.5px;color:#999;line-height:1.4;margin-top:3px}
+.rtoggle{width:40px;height:23px;border-radius:12px;background:#1A7A3B;position:relative;cursor:pointer;flex:none;transition:.2s;margin-top:3px}
+.rtoggle::after{content:'';position:absolute;width:19px;height:19px;border-radius:50%;background:#fff;top:2px;right:2px;transition:.2s}
+.rtoggle.off{background:#ccc}
+.rtoggle.off::after{right:19px}
+@media(max-width:1180px){.nav{display:none}}
+@media(max-width:440px){.phone{width:100%;height:100%;max-width:100vw;max-height:100vh;border-radius:0}.screenwrap{border-radius:0}.island{display:none}.badge{display:none}}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="phone">
+    <div class="badge">DEMO</div>
+    <div class="island"></div>
+    <div class="screenwrap">
+      <div class="statusbar" id="sbar">
+        <div>9:41</div>
+        <div class="sicons">
+          <svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="6" width="3" height="5" rx="1" fill="currentColor"/><rect x="4.5" y="4" width="3" height="7" rx="1" fill="currentColor"/><rect x="9" y="2" width="3" height="9" rx="1" fill="currentColor"/><rect x="13.5" y="0" width="3" height="11" rx="1" fill="currentColor" opacity=".35"/></svg>
+          <svg width="24" height="11" viewBox="0 0 24 11"><rect x="0" y="1" width="20" height="9" rx="2.5" stroke="currentColor" fill="none"/><rect x="1.5" y="2.5" width="15" height="6" rx="1.5" fill="currentColor"/><rect x="21" y="4" width="2" height="3.5" rx="1" fill="currentColor" opacity=".5"/></svg>
+        </div>
+      </div>
+      <div class="progress" id="prog"><div class="fill" id="fill"></div></div>
+      <div class="content" id="content"></div>
+      <div class="powered">POWERED BY <img src="markable-logo.png" alt="MARKABLE"></div>
+      <div class="homebar"><div class="h"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="nav" id="nav">
+  <div class="h">ניווט בדמו</div>
+  <div class="arrows">
+    <div class="a" onclick="prev()"><svg viewBox="0 0 24 24" fill="none" stroke="#D1409C" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg><span>הקודם</span></div>
+    <div class="a" onclick="next()"><svg viewBox="0 0 24 24" fill="none" stroke="#D1409C" stroke-width="2.5"><path d="M15 6l-6 6 6 6"/></svg><span>הבא</span></div>
+  </div>
+  <div class="jump" id="jump"></div>
+  <a href="index.html" class="back">חזרה לתפריט</a>
+</div>
+
+<script>
+var CLINIC = "מכבי · שירות גיל המעבר";
+var CLINICIAN = "ד\"ר רונית כהן";
+var NAME = "מיכל";
+
+var SCREENS = [
+  {id:"lock", label:"SMS ממכבי", noprog:true},
+  {id:"landing", label:"לפני הביקור"},
+  {id:"consent", label:"הסכמה"},
+  {id:"scanintro", label:"סריקת פנים"},
+  {id:"scan", label:"סריקה", noprog:true},
+  {id:"quest", label:"כמה שאלות"},
+  {id:"analyzing", label:"מעבדים", noprog:true},
+  {id:"imprint", label:"החותם ההורמונלי"},
+  {id:"symptoms", label:"מיפוי תסמינים"},
+  {id:"think", label:"THINK, קוגניציה"},
+  {id:"sense", label:"SENSE, חושים"},
+  {id:"summary", label:"הפרופיל שלך"},
+  {id:"report", label:"לרופאה"},
+  {id:"tools", label:"בין הביקורים"},
+  {id:"reminders", label:"התזכורות שלך"},
+  {id:"done", label:"מוכנה לביקור", noprog:true},
+  {id:"sereport", label:"עדכון לצוות", noprog:true},
+  {id:"sereassure", label:"הקשר", noprog:true},
+  {id:"sestatus", label:"נשלח לצוות", noprog:true}
+];
+var cur = 0;
+
+// One consistent progress scale (change since the previous mapping): 0 משתפר / 1 יציב / 2 לא השתנה
+var TR = [
+  {label:"משתפר",     color:"#1A7A3B"},
+  {label:"יציב",      color:"#2E6BE6"},
+  {label:"לא השתנה",  color:"#B8860B"}
+];
+function catPill(t){var v=TR[t];return '<div class="catwrap"><span class="catpill" style="background:'+v.color+'14;color:'+v.color+'">'+v.label+'</span></div>';}
+function rowsHtml(items){var h='<div class="rows">';items.forEach(function(it){var v=TR[it.t];h+='<div class="row"><span class="rn">'+it.n+'</span><span class="rl" style="color:'+v.color+'">'+v.label+'</span></div>';});return h+'</div>';}
+var ICON={
+  imprint:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D1409C" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M8.5 15a4 4 0 007 0"/><path d="M8.5 10h.01M15.5 10h.01"/></svg>',
+  symptoms:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D1409C" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>',
+  think:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D1409C" stroke-width="1.8"><path d="M9 3a4 4 0 00-4 4 3 3 0 00-1 5 3 3 0 002 5 3 3 0 006 0V5a2 2 0 00-2-2z"/><path d="M15 7a2 2 0 012 2 3 3 0 011 5"/></svg>',
+  sense:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D1409C" stroke-width="1.8"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>'
+};
+
+// Symptom re-rating with the previous-visit value pre-filled as an anchor
+var SYM=[
+  {n:"גלי חום",prev:8,now:3},
+  {n:"הזעות לילה",prev:7,now:3},
+  {n:"רגישות ללחץ",prev:6,now:4},
+  {n:"קושי בהירדמות",prev:6,now:6},
+  {n:"ערפול מוחי",prev:6,now:6}
+];
+function symDir(prev,now){if(now<prev)return {label:'משתפר',color:'#1A7A3B'};if(now>prev)return {label:'עלה',color:'#C0392B'};return {label:'ללא שינוי',color:'#8a8a94'};}
+function symStep(i,d){var v=SYM[i].now+d;if(v<0)v=0;if(v>10)v=10;SYM[i].now=v;document.getElementById('sv'+i).textContent=v;var t=symDir(SYM[i].prev,v);var el=document.getElementById('sd'+i);el.textContent=t.label;el.style.color=t.color;}
+function goId(id){for(var i=0;i<SCREENS.length;i++){if(SCREENS[i].id===id){show(i);return;}}}
+function sendUpdate(){goId('sestatus');setTimeout(function(){var t=document.getElementById('sst2t'),d=document.getElementById('sst2d'),row=document.getElementById('sst2');if(t){t.textContent='נצפה במרפאה · אין צורך בפעולה כרגע';d.textContent='✓';row.classList.add('done');}},2500);}
+function whyToggle(){var b=document.getElementById('whyBox');if(b)b.style.display=b.style.display==='none'?'block':'none';}
+function remToggle(el){el.classList.toggle('off');}
+
+var V = {
+  lock: function(){return '<div class="scr" data-i="0"><div class="lock">'+
+    '<div class="time">9:41</div><div class="date">יום שלישי, 3 ביוני</div>'+
+    '<div class="notif" onclick="next()"><div class="nh"><div class="ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M20 2H4a2 2 0 00-2 2v18l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z"/></svg></div><div class="nm">מכבי TeleHealth</div><div class="nt">עכשיו</div></div>'+
+    '<div class="nb">היי '+NAME+', לקראת ביקור המעקב עם <b>'+CLINICIAN+'</b> ב-8.6, נעדכן את המיפוי שלך כדי שהרופאה תראה איך את מתקדמת מאז הפעם הקודמת. לוקח כ-7 דקות. <b>לחצי כדי להתחיל.</b></div></div>'+
+    '<div class="taphint">לחצי על ההודעה כדי להתחיל את הדמו</div></div></div>';},
+
+  landing: function(){return '<div class="scr" data-i="1"><div class="pad">'+
+    '<div class="ey">'+CLINIC+'</div>'+
+    '<h2 class="t">'+NAME+', נעדכן את המיפוי ונראה מה השתנה מאז הפעם הקודמת.</h2>'+
+    '<p class="sub" style="margin-top:8px">בגיל המעבר הדברים משתנים משבוע לשבוע. מיפוי קצר יראה ל'+CLINICIAN+' איך את מגיבה לטיפול, וימשיך לבנות את התמונה שלכן לאורך זמן.</p>'+
+    '<div class="stages"><div class="stage-box now"><div class="sl">שלב 1 · עכשיו</div><div class="sd">מיפוי קצר, כ-7 דקות</div></div><div class="stage-box later"><div class="sl">שלב 2 · בין הביקורים</div><div class="sd">מעקב קל שממשיך לעדכן את הרופאה</div></div></div>'+
+    '<div class="steps">'+
+      '<div class="stp"><div class="n">1</div><div><h4>סריקת פנים</h4><p>סלפי שקורא דפוסים בעור שנקשרו במחקרים לשינוי ההורמונלי.</p></div></div>'+
+      '<div class="stp"><div class="n">2</div><div><h4>מיפוי תסמינים</h4><p>כ-60 סימנים שנפוצים בפרימנופאוזה ובגיל המעבר.</p></div></div>'+
+      '<div class="stp"><div class="n">3</div><div><h4>THINK ו-SENSE</h4><p>דגימות קצרות של זיכרון, קשב, ראייה, שמיעה ושיווי משקל.</p></div></div>'+
+      '<div class="stp"><div class="n">4</div><div><h4>החותם ההורמונלי</h4><p>הכול מתחבר לפרופיל אישי אחד, ברור ומובן.</p></div></div>'+
+    '</div>'+
+    '<div class="sub" style="font-size:12px;color:#999">אפשר לעצור באמצע ולהמשיך מאותה נקודה. מומלץ במקום שקט ומואר.</div>'+
+    '</div><div class="foot"><button class="btn btn-pk" onclick="next()">בואי נתחיל את המיפוי</button>'+
+    '<div class="disc">פלטפורמת בריאות ואיכות חיים. אינה מהווה כלי אבחוני רפואי.</div></div></div>';},
+
+  consent: function(){return '<div class="scr" data-i="2"><div class="pad">'+
+    '<div class="ey">הסכמה מדעת</div>'+
+    '<p class="sub" style="font-size:12.5px;margin:6px 0 4px">המיפוי אוסף מידע מהסלפי שלך, מדגימות קוגניטיביות וחושיות, ומהתסמינים שדיווחת, ובונה תמונה שאת והרופאה יכולות לעקוב אחריה לאורך זמן. זהו כלי למודעות ולמעקב אישי, לא אבחון רפואי. המידע מעובד על ידי MARKABLE, המספקת את הכלי למכבי, ונשמר רק למשך הזמן הדרוש לטיפול בך. הנתונים שלך שייכים לך.</p>'+
+    '<div class="steps" style="padding:2px 14px">'+
+      '<div class="cItem" onclick="tc(0)"><div class="cbox" id="cb0"></div><div class="ct">אני מסכימה לעיבוד הסלפי, הדגימות הקוגניטיביות והחושיות והתסמינים, ולשיתוף התוצאות עם הרופאה שלי במכבי. תמונת הפנים מנותחת להפקת מדדי דפוסי עור, ונשמרת באופן מאובטח כחלק מהמידע שלי. גיל 18+. <span class="tagr">חובה</span></div></div>'+
+      '<div class="cItem" onclick="tc(1)"><div class="cbox" id="cb1"></div><div class="ct">אני מסכימה שנתונים ללא פרטים מזהים ישמשו למחקר לקידום בריאות נשים בגיל המעבר. <span class="tago">רשות</span></div></div>'+
+      '<div class="cItem" onclick="tc(2)"><div class="cbox" id="cb2"></div><div class="ct">קראתי את <span style="color:var(--pk);text-decoration:underline">מדיניות הפרטיות</span> ואת <span style="color:var(--pk);text-decoration:underline">תנאי השימוש</span>, ואוכל לבקש מחיקת הנתונים בכל עת. <span class="tagr">חובה</span></div></div>'+
+      '<div class="cItem" onclick="checkAllJ()" style="border-top:1px solid #f2f2f5;margin-top:2px;padding-top:10px"><div class="cbox" id="cbAll"></div><div class="ct" style="font-weight:700;color:var(--pk)">אני מאשרת את הכל</div></div>'+
+    '</div>'+
+    '</div><div class="foot"><button class="btn btn-pk" id="cbtn" disabled onclick="next()">אני מאשרת וממשיכה</button></div></div>';},
+
+  scanintro: function(){return '<div class="scr" data-i="3"><div class="pad" style="text-align:center">'+
+    '<div class="ey">שלב 1 מתוך 3</div>'+
+    '<h2 class="t">סריקת פנים קצרה</h2>'+
+    '<p class="sub" style="margin:8px 0 14px">החזיקי את הטלפון בגובה העיניים באור טוב, ועקבי אחרי המדריך על המסך. לוקח כמה שניות. התמונה מעובדת למדדי דפוסים שנכנסים לפרופיל שלך, ונשמרת באופן מאובטח.</p>'+
+    '<div style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;text-align:right">'+
+      '<div style="display:flex;gap:11px;align-items:center;margin-bottom:12px"><div style="width:34px;height:34px;border-radius:9px;background:var(--wash);display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D1409C" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M2 12h2m16 0h2M12 2v2m0 16v2"/></svg></div><div style="font-size:13px;color:#444"><b>אור טוב ואחיד.</b> מולך חלון, אם אפשר.</div></div>'+
+      '<div style="display:flex;gap:11px;align-items:center;margin-bottom:12px"><div style="width:34px;height:34px;border-radius:9px;background:var(--wash);display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D1409C" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg></div><div style="font-size:13px;color:#444"><b>בלי איפור, אם אפשר.</b> פנים נקיות נקראות הכי טוב.</div></div>'+
+      '<div style="display:flex;gap:11px;align-items:center"><div style="width:34px;height:34px;border-radius:9px;background:var(--wash);display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D1409C" stroke-width="2"><rect x="5" y="8" width="14" height="12" rx="3"/><path d="M12 2v6"/></svg></div><div style="font-size:13px;color:#444"><b>להחזיק יציב.</b> עקבי אחרי המדריך על המסך.</div></div>'+
+    '</div>'+
+    '</div><div class="foot"><button class="btn btn-pk" onclick="next()">להתחיל סריקה</button></div></div>';},
+
+  scan: function(){return '<div class="scr" data-i="4"><div class="scanfull"><video id="scanvid" src="facescanHE.mp4" poster="hero.png" muted playsinline></video>'+
+    '<div style="position:absolute;right:0;left:0;bottom:0;padding:16px 18px;background:linear-gradient(transparent,rgba(0,0,0,.75))"><button class="btn btn-pk" onclick="next()">המשיכי</button></div></div></div>';},
+
+  quest: function(){return '<div class="scr" data-i="5"><div class="pad q">'+
+    '<div class="ey">בזמן שאנחנו קוראים את הסימנים בתמונה</div>'+
+    '<h2 class="t" style="font-size:19px">כמה פרטים שיעזרו להתאים את זה אלייך.</h2>'+
+    '<h4>בת כמה את?</h4><input class="inp" id="age" type="number" min="18" max="99" placeholder="גיל">'+
+    '<h4>היה לך מחזור ב-12 החודשים האחרונים?</h4>'+
+    '<div class="qrow"><div class="qopt" onclick="pick(this)">כן</div><div class="qopt" onclick="pick(this)">לא</div><div class="qopt" onclick="pick(this)">לא בטוחה</div></div>'+
+    '<h4>אילו שינויים הרגשת לאחרונה?</h4>'+
+    '<div class="chips">'+
+      '<div class="chip" onclick="tg(this)">הזעות לילה</div><div class="chip" onclick="tg(this)">שינה לא רגועה</div>'+
+      '<div class="chip" onclick="tg(this)">שינויים במצב רוח</div><div class="chip" onclick="tg(this)">ערפול מוחי</div>'+
+      '<div class="chip" onclick="tg(this)">גלי חום</div><div class="chip" onclick="tg(this)">מחזור לא סדיר</div>'+
+      '<div class="chip" onclick="tg(this)">מיגרנות חדשות</div><div class="chip" onclick="tg(this)">שינויים במשקל</div>'+
+      '<div class="chip" onclick="tg(this)">אנרגיה נמוכה</div><div class="chip" id="rfchip" onclick="tg(this,true)">דימום כבד או ממושך</div>'+
+    '</div>'+
+    '<div class="rf-note" id="rfNote">כדאי להזכיר את זה לרופאה בהקדם. המיפוי לא מחליף בדיקה רפואית.</div>'+
+    '</div><div class="foot"><button class="btn btn-pk" onclick="next()">המשיכי</button></div></div>';},
+
+  analyzing: function(){return '<div class="scr" data-i="6"><div class="analyz"><div class="spin"></div>'+
+    '<h2 class="t">מעבדים את התמונה שלך</h2>'+
+    '<p class="sub" style="margin-top:8px">מחברים את הסימנים מהפנים, מהקוגניציה, מהחושים ומהתסמינים לחותם הורמונלי אחד.</p>'+
+    '<button class="btn btn-out" style="margin-top:22px;width:auto;padding:10px 22px" onclick="next()">לתוצאות</button></div></div>';},
+
+  imprint: function(){return '<div class="scr" data-i="7"><div class="pad">'+
+    '<div class="ey">החותם ההורמונלי, מהסלפי שלך</div>'+
+    '<h2 class="t" style="font-size:19px">דפוסי העור, לעומת הפעם הקודמת.</h2>'+
+    catPill(1)+
+    '<p class="sub" style="text-align:center;margin:10px 0">דפוסי העור שלך יציבים מאז הפעם הקודמת. זהו סימן למודעות, לא אבחנה.</p>'+
+    rowsHtml([{n:"מרקם ומוצקות",t:1},{n:"לחות ומאזן עור",t:1},{n:"גוון ובהירות",t:0},{n:"אזור העיניים",t:1}])+
+    '</div><div class="foot"><button class="btn btn-pk" onclick="next()">הלאה, מיפוי התסמינים</button></div></div>';},
+
+  symptoms: function(){
+    var rows='';
+    SYM.forEach(function(it,i){var t=symDir(it.prev,it.now);
+      rows+='<div class="srow"><div class="sn">'+it.n+'</div><div class="sanchor">היה '+it.prev+'</div>'+
+        '<div class="stepper"><button onclick="symStep('+i+',-1)">−</button><span id="sv'+i+'">'+it.now+'</span><button onclick="symStep('+i+',1)">+</button></div>'+
+        '<span class="sdir" id="sd'+i+'" style="color:'+t.color+'">'+t.label+'</span></div>';});
+    return '<div class="scr" data-i="8"><div class="pad">'+
+    '<div class="ey">מיפוי תסמינים</div>'+
+    '<h2 class="t" style="font-size:19px">עדכני את התסמינים.</h2>'+
+    '<p class="sub" style="margin:6px 0 12px">מה שסימנת בפעם הקודמת כבר כאן. שני רק את מה שהשתנה, בסולם 0 עד 10.</p>'+
+    '<div class="rows">'+rows+'</div>'+
+    '</div><div class="foot"><button class="btn btn-pk" onclick="next()">הלאה, זיכרון וקשב</button></div></div>';},
+
+  think: function(){return '<div class="scr" data-i="9"><div class="pad">'+
+    '<div class="ey">THINK, קוגניציה</div>'+
+    '<h2 class="t" style="font-size:19px">זיכרון, קשב ומהירות, לעומת הפעם הקודמת.</h2>'+
+    catPill(2)+
+    '<p class="sub" style="text-align:center;margin:10px 0">הקוגניציה לא זזה מאז הפעם הקודמת, ושווה להעלות את זה עם הרופאה. דגימה קצרה שמרגישה כמו משחק.</p>'+
+    rowsHtml([{n:"מהירות עיבוד",t:2},{n:"שליפת מילים",t:1},{n:"זיכרון עבודה",t:1},{n:"שחזור מושהה",t:2}])+
+    '</div><div class="foot"><button class="btn btn-pk" onclick="next()">הלאה, החושים</button></div></div>';},
+
+  sense: function(){return '<div class="scr" data-i="10"><div class="pad">'+
+    '<div class="ey">SENSE, החושים</div>'+
+    '<h2 class="t" style="font-size:19px">ראייה, שמיעה ושיווי משקל.</h2>'+
+    catPill(1)+
+    '<p class="sub" style="text-align:center;margin:10px 0">החושים שלך נשארו יציבים. דגימה קצרה שומרת אותם בתמונה.</p>'+
+    rowsHtml([{n:"ניגודיות",t:1},{n:"צבע",t:1},{n:"שמיעה",t:1},{n:"שיווי משקל",t:1}])+
+    '</div><div class="foot"><button class="btn btn-pk" onclick="next()">לפרופיל המלא</button></div></div>';},
+
+  summary: function(){
+    var mini=function(icon,title,desc,t){var v=TR[t];return '<div class="mini"><div class="mi" style="background:var(--wash)">'+icon+'</div><div class="ml"><h4>'+title+'</h4><p>'+desc+'</p></div><span class="mtag" style="background:'+v.color+'14;color:'+v.color+'">'+v.label+'</span></div>';};
+    return '<div class="scr" data-i="11"><div class="pad">'+
+    '<div class="ey">מאז הפעם הקודמת</div>'+
+    '<h2 class="t" style="font-size:19px">מה השתנה, בתמונה אחת.</h2>'+
+    '<p class="sub" style="margin:8px 0 12px"><b style="color:#1A7A3B">גלי החום שלך בירידה יפה.</b> השינה והריכוז עדיין לא השתנו, וכדאי להעלות אותם בביקור.</p>'+
+    '<div class="legend"><div class="li"><span class="d" style="background:#1A7A3B"></span><span><b>משתפר</b> — השתפר מאז הפעם הקודמת.</span></div><div class="li"><span class="d" style="background:#2E6BE6"></span><span><b>יציב</b> — נשאר במצב טוב.</span></div><div class="li"><span class="d" style="background:#B8860B"></span><span><b>לא השתנה</b> — לא זז, שווה להעלות בביקור.</span></div></div>'+
+    mini(ICON.imprint,'החותם ההורמונלי','דפוסי פנים',1)+
+    mini(ICON.symptoms,'מיפוי תסמינים','גלי חום והזעות',0)+
+    mini(ICON.think,'THINK','קוגניציה',2)+
+    mini(ICON.sense,'SENSE','ראייה, שמיעה, שיווי משקל',1)+
+    '</div><div class="foot"><button class="btn btn-pk" onclick="next()">מה שהרופאה מקבלת</button></div></div>';},
+
+  report: function(){
+    var chip=function(t,bg,c){return '<span class="repchip" style="background:'+bg+';color:'+c+'">'+t+'</span>';};
+    return '<div class="scr" data-i="12"><div class="pad">'+
+    '<div class="ey">מועבר לצוות הטיפול שלך</div>'+
+    '<h2 class="t" style="font-size:19px">סיכום ברור ל'+CLINICIAN+'.</h2>'+
+    '<p class="sub" style="margin:6px 0 10px">הפרופיל שלך הופך לסיכום מקצועי שהרופאה קוראת בכמה שניות ויכולה להעתיק לתיק.</p>'+
+    '<div class="repcard">'+
+      '<div class="rephead"><div class="repbrand"><span class="m1">מכבי</span><span style="color:#ccc">|</span><span class="m2">MARKABLE</span></div><span style="font-size:10px;color:#999;font-weight:600">ביקור 3 · הוכן 6.6</span></div>'+
+      '<div style="font-size:15px;font-weight:800;color:var(--navy)">'+NAME+' כ. <span style="font-weight:500;color:#888;font-size:12px">· גיל 47</span></div>'+
+      '<div style="display:flex;gap:22px;margin:11px 0 2px">'+
+        '<div><div style="font-size:9px;font-weight:800;color:var(--pk);margin-bottom:1px">מיקוד הביקור</div><div style="font-size:12.5px;color:#333;font-weight:600">שינה וערפול (לא השתפרו)</div></div>'+
+        '<div><div style="font-size:9px;font-weight:800;color:var(--pk);margin-bottom:1px">טיפול נוכחי</div><div style="font-size:12.5px;color:#333;font-weight:600">Evorel 50, 3 חודשים</div></div>'+
+      '</div>'+
+      '<div class="repsec">שינוי מאז הפעם הקודמת</div>'+
+      rowsHtml([{n:"גלי חום",t:0},{n:"הזעות לילה",t:0},{n:"קושי בהירדמות",t:2},{n:"ערפול מוחי",t:2}]).replace('class="rows"','class="rows" style="border:none;padding:0;margin:0"')+
+      '<div class="repsec">סימני wellness</div>'+
+      '<div class="repchips">'+chip('חותם הורמונלי · יציב','#eef4ff','#2E6BE6')+chip('THINK · לא השתנה','#fbf4e6','#B8860B')+chip('SENSE · יציב','#eef4ff','#2E6BE6')+'</div>'+
+      '<div style="font-size:9.5px;color:#a7a7b0;line-height:1.5;margin-top:13px;padding-top:9px;border-top:1px solid #f0f0f3">מסכם דיווח עצמי ודפוסים שנצפו. אינו ייעוץ רפואי או המלצה קלינית.</div>'+
+    '</div>'+
+    '<a href="dashboard.html?report=1" target="_blank" style="display:block;text-align:center;font-size:12.5px;color:var(--pk);font-weight:700;margin-top:12px;text-decoration:none">לצפייה בדוח המלא שהרופאה מקבלת &#8592;</a>'+
+    '</div><div class="foot"><button class="btn btn-pk" onclick="next()">סיום</button></div></div>';},
+
+  tools: function(){
+    var tool=function(svg,name,desc,ev){return '<div class="tool"><div class="ti">'+svg+'</div><h4>'+name+'</h4><p>'+desc+'</p><div class="ev">'+ev+'</div></div>';};
+    var s=function(p){return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D1409C" stroke-width="2">'+p+'</svg>';};
+    return '<div class="scr" data-i="13"><div class="pad">'+
+    '<div class="ey">בין הביקורים</div>'+
+    '<h2 class="t" style="font-size:19px">הכלים שממשיכים איתך.</h2>'+
+    '<p class="sub" style="margin:8px 0 10px">כלים קצרים ומבוססי מחקר שאוספים מידע בין פגישה לפגישה ומעדכנים את הרופאה לפני הביקור הבא.</p>'+
+    '<div onclick="goId(\'sereport\')" style="background:#fff4e0;border:1px solid #f1d3a1;border-radius:12px;padding:11px 13px;margin-bottom:12px;display:flex;align-items:center;gap:10px;cursor:pointer"><div style="flex:1"><div style="font-size:13px;font-weight:700;color:#1a1a2e">בדיווח האחרון עלתה רגישות בשדיים</div><div style="font-size:11.5px;color:#8a6100">רוצה לעדכן את המרפאה? לוקח כמה שניות.</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#b37400" stroke-width="2.5"><path d="M15 6l-6 6 6 6"/></svg></div>'+
+    '<div class="toolgrid">'+
+      tool(s('<path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/>'),'יומן תסמינים קולי','תיעוד קולי יומי שמגיע לרופאה','STRONG EVIDENCE')+
+      tool(s('<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'),'מפת מחזור','מעקב דפוס לסיווג שלב','STRAW+10')+
+      tool(s('<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>'),'THINK Daily','חידוד ריכוז וזיכרון','META-ANALYSIS')+
+      tool(s('<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>'),'SENSE Balance','תרגילי שיווי משקל','COCHRANE')+
+      tool(s('<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>'),'PeriIQ','ידע מותאם על גיל המעבר','39 STUDIES')+
+      tool(s('<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>'),'MindShift','CBT למצב רוח ושינה','NICE + NAMS')+
+    '</div>'+
+    '</div><div class="foot"><button class="btn btn-pk" onclick="next()">הלאה, התזכורות שלך</button></div></div>';},
+
+  reminders: function(){
+    var ic=function(p){return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D1409C" stroke-width="2">'+p+'</svg>';};
+    var rem=function(icon,title,detail,note,off){return '<div class="remcard"><div class="ri">'+icon+'</div><div class="rc"><h4>'+title+'</h4><div class="rd">'+detail+'</div>'+(note?'<div class="rn">'+note+'</div>':'')+'</div><div class="rtoggle'+(off?' off':'')+'" onclick="remToggle(this)"></div></div>';};
+    return '<div class="scr" data-i="14"><div class="pad">'+
+    '<div class="ey">בין הביקורים</div>'+
+    '<h2 class="t" style="font-size:20px">התזכורות שלך</h2>'+
+    '<p class="sub" style="margin:6px 0 12px">לפי הטיפול שדיווחת (Evorel 50) ולשלב שבו את נמצאת. אפשר לכבות או לשנות כל אחת.</p>'+
+    rem(ic('<rect x="5" y="8" width="14" height="10" rx="2"/><path d="M9 8V6a3 3 0 016 0v2"/>'),'החלפת מדבקת Evorel 50','פעמיים בשבוע · ראשון ורביעי, 08:00','תזכורת למה שהרופאה רשמה, לא המלצה רפואית.')+
+    rem(ic('<path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/>'),'יומן סימפטומים יומי','כל יום · 20:00','צפוף בהתחלה, ומתמעט ככל שהמצב מתייצב.')+
+    rem(ic('<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'),'צ׳ק-אין תגובה לטיפול','שבוע 4 ושבוע 12 מתחילת הטיפול','נבדוק אם התגובה בטווח הצפוי, ונעדכן את הרופאה.')+
+    rem(ic('<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M9 12l2 2 4-4"/>'),'בדיקת תופעות לוואי','שבועיים וחודש מתחילת הטיפול','נזהה מוקדם, ונרגיע כשזה בטווח הרגיל.')+
+    rem(ic('<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>'),'מיפוי לפני הביקור','4 ימים לפני · 4 ביוני','כדי שהרופאה תיכנס עם תמונה עדכנית.')+
+    '<div style="font-size:10.5px;color:#aaa;margin-top:6px">התזכורות הן תמיכה בלבד, ואינן תחליף להנחיות הרופאה.</div>'+
+    '</div><div class="foot"><button class="btn btn-pk" onclick="next()">כמעט סיימנו</button></div></div>';},
+
+  done: function(){return '<div class="scr" data-i="15"><div class="done">'+
+    '<div class="ic"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#D1409C" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div>'+
+    '<h2 class="t">'+NAME+', את מוכנה לביקור.</h2>'+
+    '<p class="sub" style="margin:10px 0 0">'+CLINICIAN+' תיכנס לביקור כשההתקדמות שלך כבר לפניה. היא מקבלת ממך עדכונים לאורך הדרך, והדוח המלא יחכה לה לקראת הביקור.</p>'+
+    '<div style="text-align:right;max-width:300px;width:100%;margin:16px auto 0"><div style="font-size:13px;font-weight:800;color:#1a1a2e;margin-bottom:6px">נושאים מרכזיים לביקור</div>'+
+      '<div class="donetopic">1. שינה</div><div class="donetopic">2. ריכוז וזיכרון</div><div class="donetopic">3. המשך המעקב אחרי גלי החום</div></div>'+
+    '<div class="appt"><b>הפגישה שלך:</b> 8 ביוני, 10:00<br>'+CLINICIAN+', שירות גיל המעבר</div>'+
+    '<p class="sub" style="font-size:12px;color:#aaa;margin-top:16px">מלווה לבריאות ואיכות חיים, לא מכשיר רפואי. לכל שאלה רפואית, הרופאה שלך היא הכתובת.</p>'+
+    '<button class="btn btn-out" style="margin-top:18px;width:auto;padding:11px 26px" onclick="go(0)">לצפייה חוזרת</button>'+
+    '</div></div>';},
+
+  sereport: function(){return '<div class="scr" data-i="16"><div class="pad q">'+
+    '<div class="ey">עדכון לצוות · מכבי</div>'+
+    '<h2 class="t" style="font-size:20px">רוצה לעדכן את הצוות?</h2>'+
+    '<p class="sub" style="margin:6px 0 2px">עדכון קצר על תופעת לוואי או שינוי. המרפאה תראה אותו עוד לפני הביקור.</p>'+
+    '<h4>מה קרה?</h4>'+
+    '<div class="chips">'+
+      '<div class="chip sel" onclick="pick(this)">רגישות בשדיים</div><div class="chip" onclick="pick(this)">כתמים או דימום</div>'+
+      '<div class="chip" onclick="pick(this)">בחילה</div><div class="chip" onclick="pick(this)">כאב ראש</div>'+
+      '<div class="chip" onclick="pick(this)">נפיחות</div><div class="chip" onclick="pick(this)">אחר</div>'+
+    '</div>'+
+    '<h4>עוצמה</h4><div class="qrow"><div class="qopt sel" onclick="pick(this)">קלה</div><div class="qopt" onclick="pick(this)">בינונית</div><div class="qopt" onclick="pick(this)">חזקה</div></div>'+
+    '<h4>מתי התחיל?</h4><div class="qrow"><div class="qopt sel" onclick="pick(this)">השבוע</div><div class="qopt" onclick="pick(this)">בשבועיים האחרונים</div><div class="qopt" onclick="pick(this)">מעל חודש</div></div>'+
+    '<div style="font-size:10.5px;color:#aaa;margin-top:14px">זה לא ערוץ חירום. למקרה דחוף פני למוקד מכבי או למיון.</div>'+
+    '</div><div class="foot"><button class="btn btn-pk" onclick="goId(\'sereassure\')">המשיכי</button></div></div>';},
+
+  sereassure: function(){return '<div class="scr" data-i="17"><div class="pad">'+
+    '<div class="ey">הקשר</div>'+
+    '<h2 class="t" style="font-size:20px">מה שכדאי לדעת</h2>'+
+    '<div style="background:var(--wash);border:1px solid #f0e3ee;border-radius:14px;padding:14px 16px;margin:12px 0">'+
+      '<div style="font-size:14px;color:#333;line-height:1.6">רגישות בשדיים בתחילת טיפול הורמונלי היא דבר מוכר, ואצל רוב הנשים היא חולפת בחודשים הראשונים.</div>'+
+      '<div style="font-size:10.5px;color:#aaa;margin-top:8px">מידע כללי, לא ייעוץ רפואי. ההחלטה בידי המרפאה.</div>'+
+    '</div>'+
+    '<p class="sub">אפשר לשלוח את העדכון למרפאה, שתראה אותו לפני הביקור הבא.</p>'+
+    '</div><div class="foot"><button class="btn btn-pk" onclick="sendUpdate()">שלחי לצוות</button>'+
+    '<button class="btn btn-out" style="margin-top:10px" onclick="goId(\'done\')">לא צריך, תודה</button></div></div>';},
+
+  sestatus: function(){return '<div class="scr" data-i="18"><div class="pad" style="padding-top:22px">'+
+    '<div style="text-align:center"><div style="width:58px;height:58px;border-radius:16px;background:#e6f9f0;display:flex;align-items:center;justify-content:center;margin:0 auto 12px"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0a7c42" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></div>'+
+    '<h2 class="t" style="text-align:center;font-size:20px">תודה, שיתפנו עם המרפאה</h2></div>'+
+    '<div style="background:var(--wash);border:1px solid #f0e3ee;border-radius:14px;padding:14px 16px;margin:14px 0">'+
+      '<div style="font-size:13.5px;color:#333;line-height:1.65">רגישות בשדיים היא תופעת לוואי מוכרת, שחולפת מעצמה בדרך כלל בין השבועות הראשונים לכשלושה חודשים מתחילת הטיפול. רוב הנשים שממשיכות בתקופה הזו עוברות אותה, ואז נשארת התועלת מהטיפול.</div>'+
+      '<div onclick="whyToggle()" style="font-size:12.5px;color:var(--pk);font-weight:700;margin-top:9px;cursor:pointer">רוצה להבין למה זה קורה?</div>'+
+      '<div id="whyBox" style="display:none;font-size:12.5px;color:#555;line-height:1.6;margin-top:8px;padding-top:8px;border-top:1px solid #f0e3ee">רקמת השד מגיבה להורמונים. בתחילת הטיפול הרקמה מגיבה לשינוי ולעיתים נעשית רגישה יותר, ואצל רוב הנשים הגוף מתרגל תוך החודשים הראשונים והרגישות חולפת. מידע כללי, לא ייעוץ רפואי.</div>'+
+    '</div>'+
+    '<div style="text-align:right;max-width:340px;margin:0 auto">'+
+      '<div class="sst done"><span class="dot">&#10003;</span> נשלח למרפאה</div>'+
+      '<div class="sst" id="sst2"><span class="dot" id="sst2d">&#9679;</span> <span id="sst2t">בסקירת המרפאה...</span></div>'+
+      '<div class="sst"><span class="dot">&#9675;</span> אם יעלה משהו חריג, המרפאה תיצור איתך קשר</div>'+
+    '</div>'+
+    '<p class="sub" style="font-size:12.5px;margin-top:12px">חשוב שתמשיכי לתעד ולעדכן, כדי שהתמונה תישאר מדויקת.</p>'+
+    '<div style="font-size:10.5px;color:#aaa;margin-top:8px">זה לא ערוץ חירום. למקרה דחוף פני למוקד מכבי או למיון.</div>'+
+    '<div class="foot" style="padding-top:12px"><button class="btn btn-out" style="width:auto;padding:11px 26px;margin:0 auto" onclick="goId(\'done\')">חזרה</button></div>'+
+    '</div></div>';}
+};
+
+var cs=[false,false,false];
+function tc(i){cs[i]=!cs[i];document.getElementById('cb'+i).className='cbox'+(cs[i]?' on':'');var a=document.getElementById('cbAll');if(a)a.className='cbox'+((cs[0]&&cs[1]&&cs[2])?' on':'');document.getElementById('cbtn').disabled=!(cs[0]&&cs[2]);}
+function checkAllJ(){var all=cs[0]&&cs[1]&&cs[2];for(var i=0;i<3;i++){cs[i]=!all;document.getElementById('cb'+i).className='cbox'+(!all?' on':'');}var a=document.getElementById('cbAll');if(a)a.className='cbox'+(!all?' on':'');document.getElementById('cbtn').disabled=!(cs[0]&&cs[2]);}
+function pick(el){[].forEach.call(el.parentNode.children,function(c){c.classList.remove('sel')});el.classList.add('sel');}
+function tg(el,rf){el.classList.toggle('sel');if(rf){document.getElementById('rfNote').style.display=el.classList.contains('sel')?'block':'none';}}
+
+function render(){
+  var c=document.getElementById('content');c.innerHTML='';
+  SCREENS.forEach(function(s){var tmp=document.createElement('div');tmp.innerHTML=V[s.id]();while(tmp.firstChild){c.appendChild(tmp.firstChild);}});
+  buildJump();show(0,true);
+}
+function buildJump(){document.getElementById('jump').innerHTML=SCREENS.map(function(s,i){return '<div class="j" data-j="'+i+'" onclick="go('+i+')">'+(i+1)+'. '+s.label+'</div>';}).join('');}
+function show(n){
+  document.querySelectorAll('.scr').forEach(function(el){var i=+el.getAttribute('data-i');el.classList.remove('active','exit');if(i===n)el.classList.add('active');else if(i<n)el.classList.add('exit');});
+  cur=n;updateChrome();
+  var v=document.getElementById('scanvid');
+  if(v){if(SCREENS[n].id==='scan'){v.currentTime=0;v.play().catch(function(){});}else{try{v.pause();}catch(e){}}}
+}
+function updateChrome(){
+  var s=SCREENS[cur],prog=document.getElementById('prog'),fill=document.getElementById('fill');
+  if(s.noprog){prog.classList.add('hide');}else{prog.classList.remove('hide');fill.style.width=((cur)/(SCREENS.length-2)*100)+'%';}
+  document.getElementById('sbar').className='statusbar'+(s.id==='scan'?' dark':'');
+  [].forEach.call(document.querySelectorAll('.j'),function(j){j.classList.toggle('on',+j.getAttribute('data-j')===cur);});
+}
+function next(){if(cur<SCREENS.length-1)show(cur+1);}
+function prev(){if(cur>0)show(cur-1);}
+function go(n){show(n);}
+document.addEventListener('keydown',function(e){if(/INPUT|TEXTAREA|SELECT/.test((e.target&&e.target.tagName)||''))return;if(e.key==='ArrowLeft')next();if(e.key==='ArrowRight')prev();});
+render();
+</script>
+</body>
+</html>

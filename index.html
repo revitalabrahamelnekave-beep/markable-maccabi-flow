@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>MARKABLE x מכבי - דמו אינטראקטיבי</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pk:#D1409C;--pk-deep:#B22F84;--navy:#1a1a2e;--muted:#5c5c6e;
+  --line:#ececf0;--wash:#faf5f9;--font:'Heebo',-apple-system,system-ui,Segoe UI,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font);color:var(--navy);background:#fff;min-height:100vh;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+.page{display:grid;grid-template-columns:1.1fr .9fr;min-height:100vh}
+.left{padding:44px 52px;display:flex;flex-direction:column;max-width:660px;margin-inline-start:auto;width:100%}
+.right{position:relative;overflow:hidden;background:linear-gradient(160deg,#fdf5fa,#f7eef6);display:flex;align-items:center;justify-content:center;padding:26px}
+
+.brand{display:flex;align-items:center;gap:13px;margin-bottom:auto}
+.brand .logo-markable{height:22px}
+.brand .logo-maccabi{height:34px}
+.brand .tag{font-size:12.5px;font-weight:600;color:var(--muted);border-inline-start:1px solid var(--line);padding-inline-start:13px}
+.demo-pill{margin-inline-start:auto;background:var(--pk);color:#fff;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:3px 12px;border-radius:8px}
+
+.mid{padding:36px 0}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--pk);margin-bottom:12px}
+h1{font-size:44px;font-weight:900;letter-spacing:-.02em;line-height:1.12;margin-bottom:14px}
+h1 .hl{color:var(--pk)}
+.lede{font-size:18px;color:#43434f;line-height:1.6;max-width:500px;margin-bottom:16px}
+
+.continuity{display:inline-flex;align-items:center;gap:8px;background:rgba(209,64,156,.06);border:1px solid rgba(209,64,156,.16);border-radius:22px;padding:6px 15px;font-size:12.5px;color:var(--pk-deep);font-weight:700;margin-bottom:28px}
+.continuity svg{width:15px;height:15px;flex:none}
+
+.choices{display:flex;flex-direction:column;gap:14px;max-width:520px}
+.choice{display:flex;align-items:center;gap:18px;padding:20px 22px;border:1.5px solid var(--line);border-radius:16px;background:#fff;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s}
+.choice:hover{transform:translateY(-2px);border-color:var(--pk);box-shadow:0 14px 34px rgba(209,64,156,.14)}
+.choice.doctor:hover{border-color:var(--navy);box-shadow:0 14px 34px rgba(26,26,46,.14)}
+.choice .ic{flex:none;width:52px;height:52px;border-radius:14px;background:var(--wash);display:flex;align-items:center;justify-content:center}
+.choice.doctor .ic{background:#f1f2f5}
+.choice .c-body{flex:1}
+.choice .c-eyebrow{font-size:10.5px;font-weight:800;letter-spacing:.06em;color:var(--pk);margin-bottom:2px}
+.choice.doctor .c-eyebrow{color:var(--navy)}
+.choice h3{font-size:19px;font-weight:800;color:var(--navy)}
+.choice p{font-size:13.5px;color:var(--muted);line-height:1.5;margin-top:2px}
+.choice .arrow{flex:none;color:var(--pk)}
+.choice.doctor .arrow{color:var(--navy)}
+
+.extras{display:flex;flex-direction:column;gap:11px;margin-top:24px}
+.extra-link{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:var(--navy);transition:color .15s}
+.extra-link:hover{color:var(--pk)}
+.extra-link svg{transition:transform .15s}
+.extra-link:hover svg{transform:translateX(-3px)}
+.extra-link.subtle{font-size:12.5px;font-weight:600;color:#9a9aa4}
+.extra-link.subtle:hover{color:var(--pk)}
+
+.foot{margin-top:auto;padding-top:32px;font-size:11.5px;color:#a3a3ad;line-height:1.65;max-width:580px}
+
+/* right visual - phone with live scan */
+.right .glow{position:absolute;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(209,64,156,.18),transparent 68%);top:50%;left:50%;transform:translate(-50%,-50%)}
+.phone{width:272px;height:566px;background:#0c0c14;border-radius:42px;padding:9px;box-shadow:0 30px 70px rgba(26,26,46,.32),0 0 0 2px #24242e;position:relative;z-index:2}
+.phone .island{position:absolute;top:19px;left:50%;transform:translateX(-50%);width:92px;height:25px;background:#0c0c14;border-radius:14px;z-index:5}
+.phone .screen{width:100%;height:100%;border-radius:34px;overflow:hidden;background:#000}
+.phone video{width:100%;height:100%;object-fit:cover;display:block}
+.phone .powered{position:absolute;bottom:22px;left:0;right:0;text-align:center;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.65);font-weight:600;z-index:5}
+
+@media(max-width:900px){
+  .page{grid-template-columns:1fr}
+  .right{display:none}
+  .left{max-width:100%;padding:32px 24px}
+  h1{font-size:33px}
+  .lede{font-size:16px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="left">
+    <div class="brand">
+      <img src="markable-logo.png" class="logo-markable" alt="MARKABLE">
+      <span class="tag">שירות גיל המעבר · מכבי TeleHealth</span>
+      <img src="maccabi-logo.svg" class="logo-maccabi" alt="מכבי שירותי בריאות">
+      <span class="demo-pill">DEMO</span>
+    </div>
+
+    <div class="mid">
+      <div class="eyebrow">דמו אינטראקטיבי</div>
+      <h1>שני צדדים של <span class="hl">אותו ביקור</span>.</h1>
+      <p class="lede">אותו מיפוי של כ-7 דקות, מהטלפון שלה ומהמסך של הרופאה. היא מגיעה עם כל הרקע מוכן, והפגישה נכנסת ישר לטיפול. בחרי צד כדי לעבור עליו.</p>
+
+      <div class="choices">
+        <a class="choice" href="patient-journey.html">
+          <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#D1409C" stroke-width="1.9"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></div>
+          <div class="c-body">
+            <div class="c-eyebrow">האישה</div>
+            <h3>מסע המטופלת</h3>
+            <p>מה-SMS ועד החותם ההורמונלי, כ-7 דקות בטלפון שלה.</p>
+          </div>
+          <svg class="arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 6l-6 6 6 6"/></svg>
+        </a>
+
+        <a class="choice doctor" href="dashboard.html">
+          <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="1.9"><path d="M4 4v6a4 4 0 008 0V4"/><path d="M4 4h2M10 4h2"/><path d="M8 14v2a5 5 0 0010 0v-1"/><circle cx="18" cy="12" r="2"/></svg></div>
+          <div class="c-body">
+            <div class="c-eyebrow">המרפאה</div>
+            <h3>צד הרופאה</h3>
+            <p>מה שהרופאה רואה ועושה: הבסיס, המגמה מאז הביקור הקודם, וסיכום מוכן לתיק.</p>
+          </div>
+          <svg class="arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 6l-6 6 6 6"/></svg>
+        </a>
+      </div>
+
+    </div>
+
+    <div class="foot">
+      פלטפורמת בריאות ואיכות חיים, למודעות ולמעקב אישי. אינה מהווה כלי אבחוני רפואי ואינה מיועדת לאבחן, לטפל או למנוע מחלה. הדגמה עם נתונים לדוגמה.
+      <br><span dir="ltr">Patent Pending · MARKABLE&trade; Ltd. · All rights reserved.</span>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="glow"></div>
+    <div class="phone">
+      <div class="island"></div>
+      <div class="screen">
+        <video src="facescanHE.mp4" poster="hero.png" autoplay muted loop playsinline></video>
+      </div>
+      <div class="powered">MARKABLE</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
