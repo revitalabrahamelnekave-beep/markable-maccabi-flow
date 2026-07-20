@@ -149,6 +149,14 @@ body{font-family:"Segoe UI",Arial,sans-serif;font-size:13px;line-height:1.45;bac
 .pl-status{font-size:11px;font-weight:600;text-align:left;white-space:nowrap}
 .pl-badge{display:inline-block;padding:2px 8px;border-radius:8px;font-size:10px;font-weight:600}
 .pl-back{position:fixed;top:16px;right:16px;z-index:1001;background:#fff;border:1.5px solid #ddd;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;color:#003B7B;box-shadow:0 1px 4px rgba(0,0,0,.08);display:none}
+.upd-act{width:100%;text-align:right;background:#faf5f9;border:1px solid #ececf0;border-radius:10px;padding:11px 14px;font-family:inherit;font-size:13px;font-weight:600;color:#B22F84;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:9px}
+.upd-act:hover{background:#ececf0;border-color:#D1409C}
+.upd-act::before{content:'';width:8px;height:8px;border-radius:50%;background:#D1409C;flex:none}
+.upd-kv{flex:1;min-width:120px}
+.upd-kv .k{font-size:9px;color:#999;font-weight:700}
+.upd-kv .v{font-weight:600;font-size:12px}
+.upd-done{background:#e6f9f0 !important;border-color:#bce5ca !important;color:#0a7c42 !important}
+.upd-done::before{background:#0a7c42 !important}
 .pl-back:hover{border-color:#D1409C;color:#D1409C}
 </style>
 </head>
@@ -236,15 +244,12 @@ body{font-family:"Segoe UI",Arial,sans-serif;font-size:13px;line-height:1.45;bac
 
     <!-- Patient self-updates (closed-loop side-effect reports) -->
     <div class="pl-section-title">עדכונים ממטופלות (1)</div>
-    <div class="pl-card" style="border:1.5px solid #f1d3a1;background:#fffdf8">
+    <div class="pl-card" onclick="openUpdate()" style="border:1.5px solid #f1d3a1;background:#fffdf8;cursor:pointer">
       <div class="pl-dot" style="background:#b37400"></div>
-      <div class="pl-info"><div class="pl-name">מיכל כהן <span style="font-size:11px;font-weight:500;color:#888">· עדכון עצמי</span></div><div class="pl-meta">רגישות בשדיים · קלה · השבוע · שבוע 4 לטיפול</div></div>
+      <div class="pl-info"><div class="pl-name">יעל פרידמן <span style="font-size:11px;font-weight:500;color:#888">· דיווח עצמי</span></div><div class="pl-meta">רגישות בשדיים · קלה · השבוע · שבוע 4 לטיפול</div></div>
       <div class="pl-status" id="upStatus">
-        <div style="display:flex;gap:6px;justify-content:flex-end">
-          <span class="pl-badge" style="background:#003B7B;color:#fff;cursor:pointer;padding:5px 11px" onclick="reviewUpdate()">סמני כנצפה</span>
-          <a href="tel:*3555" class="pl-badge" style="background:#e6f9f0;color:#0a7c42;padding:5px 11px;text-decoration:none">יצירת קשר</a>
-        </div>
-        <div style="font-size:9px;color:#b37400;margin-top:3px;text-align:left">מדווח בספרות כשכיח בשבועות הראשונים</div>
+        <span class="pl-badge" style="background:#D1409C;color:#fff;padding:6px 13px">לצפייה בעדכון</span>
+        <div style="font-size:9px;color:#b37400;margin-top:3px;text-align:left">סקירה בכמה שניות</div>
       </div>
     </div>
 
@@ -361,11 +366,74 @@ body{font-family:"Segoe UI",Arial,sans-serif;font-size:13px;line-height:1.45;bac
     </div>
 
     <div style="text-align:center;padding:16px;font-size:11px;color:#bbb">
-      Powered by MARKABLE&trade; | כלי מעקב ורווחה. אינו מהווה כלי אבחוני
+      Powered by MARKABLE&trade; | כלי מעקב בריאותי. אינו מהווה כלי אבחוני
       <br>פיילוט מכבי-MARKABLE | גרסה 1.0
     </div>
   </div>
 </div>
+<!-- PATIENT UPDATE TRIAGE PANEL -->
+<div class="patient-list-overlay" id="updatePanel" style="display:none">
+  <div style="max-width:660px;margin:0 auto;padding:24px 20px 70px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <span style="font-size:11px;font-weight:800;letter-spacing:.04em;color:#D1409C">עדכון ממטופלת · סקירה מהירה</span>
+      <span style="margin-inline-start:auto;font-size:13px;color:#D1409C;cursor:pointer;font-weight:700" onclick="closeUpdate()">&#10005; סגירה</span>
+    </div>
+    <div style="background:#fff;border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:42px;height:42px;border-radius:50%;background:#faf5f9;display:flex;align-items:center;justify-content:center;font-weight:800;color:#D1409C;flex-shrink:0">יפ</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:15px;font-weight:700">יעל פרידמן</div>
+          <div style="font-size:11px;color:#888">ת.ז. <span dir="ltr">****7788</span> · גיל 44 · שבוע 4 לטיפול הורמונלי · מעקב #2</div>
+        </div>
+        <a href="tel:*3555" class="pl-badge" style="background:#e6f9f0;color:#0a7c42;padding:7px 14px;text-decoration:none">יצירת קשר</a>
+      </div>
+    </div>
+    <div style="background:#fffdf8;border:1.5px solid #f1d3a1;border-radius:12px;padding:14px 16px;margin-bottom:12px">
+      <div style="font-size:11px;font-weight:800;color:#b37400;margin-bottom:8px">מה דיווחה</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:9px">
+        <span style="font-size:16px;font-weight:800;color:#1a1a2e">רגישות בשדיים</span>
+        <span class="badge" style="background:#fff4e0;color:#b37400">קלה</span>
+        <span class="badge badge-gray">התחיל השבוע</span>
+        <span class="badge badge-gray">דרך האפליקציה · 8.2</span>
+      </div>
+      <div style="font-size:12.5px;color:#444;font-style:italic;line-height:1.6;border-inline-start:3px solid #f1d3a1;padding-inline-start:11px">"זה לא נורא, אבל זה חדש מאז שהתחלתי את המדבקה ורציתי לוודא שזה תקין."</div>
+    </div>
+    <div style="background:#eff6ff;border:1px solid #bcd7f5;border-radius:12px;padding:12px 16px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px">
+      <div class="flag-icon" style="background:#2563eb;flex-shrink:0">&#10003;</div>
+      <div class="flag-text"><span class="flag-label">סינון דגלים אדומים: תקין.</span> הדיווח אינו כולל דימום לא מתוכנן, כאב חד או נפיחות ברגל. דיווחים הכוללים תסמיני דגל אדום מסומנים אוטומטית ועולים לראש רשימת העדכונים.</div>
+    </div>
+    <div style="background:#fff;border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:12px">
+      <div style="font-size:11px;font-weight:800;color:#D1409C;margin-bottom:8px">הקשר מתווית התרופה</div>
+      <div style="font-size:12.5px;color:#333;line-height:1.7;margin-bottom:11px">רגישות בשדיים היא מהתופעות <b>השכיחות המדווחות</b> בטיפול אסטרוגני סיסטמי, בדרך כלל בתחילת הטיפול, ולרוב חולפת.</div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:9px">
+        <div class="upd-kv"><div class="k">שכיחות</div><div class="v">שכיח (מעל 1 ל-100), לפי התווית</div></div>
+        <div class="upd-kv"><div class="k">ציר הזמן שלה</div><div class="v">שבוע 4 · בתוך החלון הראשוני</div></div>
+        <div class="upd-kv"><div class="k">תרופה מקושרת</div><div class="v"><span dir="ltr">Evorel 50</span> (אסטרדיול טרנסדרמלי)</div></div>
+      </div>
+      <div style="font-size:9.5px;color:#a7a7b0;line-height:1.6;border-top:1px solid #f0f0f3;padding-top:8px">מקור: תווית התרופה. הקשר בלבד, לא בדיקת התוויות נגד ולא המלצה טיפולית. ההחלטה נתונה לשיקול דעתך הקליני.</div>
+    </div>
+    <div style="background:#fff;border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:12px">
+      <div style="font-size:11px;font-weight:800;color:#D1409C;margin-bottom:10px">פעולות מהירות</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button class="upd-act" onclick="updReassure()">שליחת הרגעה והמשך מעקב</button>
+        <button class="upd-act" onclick="updAgenda(this)">הוספה לסדר היום של הביקור</button>
+        <button class="upd-act" onclick="updCheckin(this)">בקשת עדכון בעוד שבועיים</button>
+      </div>
+      <div id="reassureBox" style="display:none;margin-top:11px">
+        <div style="font-size:11px;color:#888;margin-bottom:5px;font-weight:600">הודעה למטופלת (ניתנת לעריכה):</div>
+        <textarea id="reassureText" style="width:100%;height:104px;border:1.5px solid #ececf0;border-radius:10px;padding:10px;font-family:inherit;font-size:12.5px;line-height:1.6;resize:none;direction:rtl">תודה על העדכון, יעל. רגישות בשדיים בשבועות הראשונים היא דבר שאנחנו רואים לא מעט, ובדרך כלל היא חולפת עם הזמן. המשיכי לתעד באפליקציה, ונעבור על זה יחד בביקור. אם זה מחמיר או שמופיע משהו חדש, אל תהססי לפנות.</textarea>
+        <button onclick="updSendReassure()" style="margin-top:8px;background:#D1409C;color:#fff;border:none;border-radius:10px;padding:9px 18px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit">שליחה למטופלת</button>
+      </div>
+      <div id="updLog" style="margin-top:12px"></div>
+    </div>
+    <div class="navy-card" style="margin-bottom:0">
+      <div class="card-title">תמצית להעתקה לתיק</div>
+      <div class="ehr-text" id="updEhr" contenteditable="true" style="min-height:auto">דיווח עצמי על רגישות בשדיים, קלה, בתחילת שבוע 4 לטיפול באסטרדיול. לא דווחו תסמיני דגל אדום. נשלחה הרגעה; לבדיקה בביקור הבא.</div>
+      <div style="text-align:left;margin-top:6px"><button class="copy-btn" onclick="updCopy(this)">העתקה</button></div>
+    </div>
+  </div>
+</div>
+
 <button class="pl-back" id="backBtn" onclick="backToList()">&#8594; חזרה לרשימה</button>
 
 <div class="page">
@@ -468,7 +536,7 @@ body{font-family:"Segoe UI",Arial,sans-serif;font-size:13px;line-height:1.45;bac
   <div style="font-size:11.5px;font-weight:700;color:#1a1a2e;margin:4px 0 2px">תסמינים ותופעות לוואי <span style="color:#0a7c42">&#8595; קו יורד = פחות תסמינים</span> <span style="font-weight:400;color:#888">(0=אין, 10=חמור מאוד)</span></div>
   <div style="direction:ltr"><svg id="chartSym" viewBox="0 0 720 235" width="100%" style="display:block"></svg></div>
   <div class="legend" id="legendSym" style="padding:4px 0"></div>
-  <div style="font-size:11.5px;font-weight:700;color:#1a1a2e;margin:8px 0 2px;border-top:1px solid #f0f0f0;padding-top:10px">תפקוד ורווחה <span style="color:#0a7c42">&#8593; קו עולה = תפקוד טוב יותר</span> <span style="font-weight:400;color:#888">(0=נמוך מאוד, 10=מיטבי)</span></div>
+  <div style="font-size:11.5px;font-weight:700;color:#1a1a2e;margin:8px 0 2px;border-top:1px solid #f0f0f0;padding-top:10px">תפקוד ואיכות חיים <span style="color:#0a7c42">&#8593; קו עולה = תפקוד טוב יותר</span> <span style="font-weight:400;color:#888">(0=נמוך מאוד, 10=מיטבי)</span></div>
   <div style="direction:ltr"><svg id="chartWell" viewBox="0 0 720 180" width="100%" style="display:block"></svg></div>
   <div class="legend" id="legendWell" style="padding:4px 0"></div>
   <div style="font-size:10px;color:#999;text-align:center;padding-top:2px">מקור: דיווח עצמי של המטופלת, סולם 0-10 · קווי האורך מסמנים תחילת טיפול מדווחת</div>
@@ -657,7 +725,7 @@ const PATIENT_DATA = {
   },
 
   // EHR summary - pre-generated text for copy-to-chart (source: חש = auto-generated)
-  ehrSummary: "[מקור: Markable, כלי מעקב רווחה מבוסס דיווח עצמי. אינו מכשיר רפואי | מעקב 5 | 15.04.2026]\n[סולם 0-10, דיווח עצמי: תסמינים 10=חמור ביותר; שינה/אנרגיה/מצב רוח 10=מיטבי]\nמיקוד הביקור שסימנה המטופלת: שינה, ערפול מוחי.\nטיפול הורמונלי: Evorel 50mcg (משבוע 0), אוטרוגסטן 100mg לפני שינה (משבוע 6), Mirena. היענות מדווחת מלאה (14 דיווחים שבועיים).\nתרופות נוספות: אלטרוקסין 75mcg, ויטמין D 1000IU, אומגה 3.\nגלי חום ירדו מ-8 ל-2. הזעות לילה ירדו מ-7 ל-2. שינה 4, ללא שינוי. אנרגיה 2 ומוטיבציה 2, ללא שינוי. מצב רוח עלה מ-3 ל-5. כאבי מפרקים ירדו מ-5 ל-4. ערפול מוחי מדווח נמשך, עקבי עם הדגימה הקוגניטיבית.\nתופעות לוואי: רגישות בשדיים שבועות 2-6 (חלפה), כאבי ראש שבועות 10-12 (חלפו). נוכחי: אין.\nדגשים: שינה ואנרגיה ללא שינוי לאורך 3 מעקבים, לצד היענות מלאה.",
+  ehrSummary: "[מקור: Markable, כלי מעקב בריאותי מבוסס דיווח עצמי. אינו מכשיר רפואי | מעקב 5 | 15.04.2026]\n[סולם 0-10, דיווח עצמי: תסמינים 10=חמור ביותר; שינה/אנרגיה/מצב רוח 10=מיטבי]\nמיקוד הביקור שסימנה המטופלת: שינה, ערפול מוחי.\nטיפול הורמונלי: Evorel 50mcg (משבוע 0), אוטרוגסטן 100mg לפני שינה (משבוע 6), Mirena. היענות מדווחת מלאה (14 דיווחים שבועיים).\nתרופות נוספות: אלטרוקסין 75mcg, ויטמין D 1000IU, אומגה 3.\nגלי חום ירדו מ-8 ל-2. הזעות לילה ירדו מ-7 ל-2. שינה 4, ללא שינוי. אנרגיה 2 ומוטיבציה 2, ללא שינוי. מצב רוח עלה מ-3 ל-5. כאבי מפרקים ירדו מ-5 ל-4. ערפול מוחי מדווח נמשך, עקבי עם הדגימה הקוגניטיבית.\nתופעות לוואי: רגישות בשדיים שבועות 2-6 (חלפה), כאבי ראש שבועות 10-12 (חלפו). נוכחי: אין.\nדגשים: שינה ואנרגיה ללא שינוי לאורך 3 מעקבים, לצד היענות מלאה.",
 
     // Flags / observations (source: חש = computed from all above)
   observations: {
@@ -725,7 +793,7 @@ var VISITS = {
   delta:'בסיס נקבע · אין עדיין מגמה · מהמעקב הבא הדוח יציג את המגמה לאורך זמן',
   goals:['גלי חום','שינה'], quote:'"הכי מפריעים לי גלי החום, ואני כמעט לא ישנה."',
   ehr:[
-    '[מקור: Markable, כלי מעקב רווחה מבוסס דיווח עצמי. אינו מכשיר רפואי | ביקור ראשון | 12.01.2026]',
+    '[מקור: Markable, כלי מעקב בריאותי מבוסס דיווח עצמי. אינו מכשיר רפואי | ביקור ראשון | 12.01.2026]',
     '[סולם 0-10, דיווח עצמי: תסמינים 10=חמור ביותר; שינה/אנרגיה/מצב רוח 10=מיטבי]',
     'מיקוד הביקור שסימנה המטופלת: גלי חום, שינה.',
     'בסיס טרם התחלת טיפול הורמונלי.',
@@ -775,7 +843,7 @@ var VISITS = {
   resAttnFoot:'בספרות, רגישות בשדיים בתחילת טיפול אסטרוגני לרוב חולפת תוך שבועות.',
   regUtro:false, evorelBadge:'פעיל (שבוע 4)', regChange:'ללא שינויים מדווחים מאז תחילת הטיפול.',
   ehr:[
-    '[מקור: Markable, כלי מעקב רווחה מבוסס דיווח עצמי. אינו מכשיר רפואי | מעקב 2 | 09.02.2026]',
+    '[מקור: Markable, כלי מעקב בריאותי מבוסס דיווח עצמי. אינו מכשיר רפואי | מעקב 2 | 09.02.2026]',
     '[סולם 0-10, דיווח עצמי: תסמינים 10=חמור ביותר; שינה/אנרגיה/מצב רוח 10=מיטבי]',
     'מיקוד הביקור שסימנה המטופלת: גלי חום, רגישות בשדיים.',
     'טיפול הורמונלי: Evorel 50mcg (משבוע 0), Mirena. היענות מדווחת מלאה (4 דיווחים שבועיים).',
@@ -834,7 +902,7 @@ var VISITS = {
   resAttnFoot:'אנרגיה ומוטיבציה לא סומנו על ידי המטופלת כמיקוד הביקור.',
   regUtro:true, evorelBadge:'פעיל', regChange:'ללא שינויי מינון מדווחים מאז מעקב 4.',
   ehr:[
-    '[מקור: Markable, כלי מעקב רווחה מבוסס דיווח עצמי. אינו מכשיר רפואי | מעקב 5 | 15.04.2026]',
+    '[מקור: Markable, כלי מעקב בריאותי מבוסס דיווח עצמי. אינו מכשיר רפואי | מעקב 5 | 15.04.2026]',
     '[סולם 0-10, דיווח עצמי: תסמינים 10=חמור ביותר; שינה/אנרגיה/מצב רוח 10=מיטבי]',
     'מיקוד הביקור שסימנה המטופלת: שינה, ערפול מוחי.',
     'טיפול הורמונלי: Evorel 50mcg (משבוע 0), אוטרוגסטן 100mg לפני שינה (משבוע 6), Mirena. היענות מדווחת מלאה (14 דיווחים שבועיים).',
@@ -1030,6 +1098,15 @@ function hideAddPatient(){document.getElementById('addPatientForm').style.displa
 function addPatientSMS(){document.getElementById('addPatientForm').style.display='none';document.getElementById('smsSentMsg').style.display='block';setTimeout(function(){document.getElementById('smsSentMsg').style.display='none'},4000)}
 function sendReminder(){alert('תזכורת SMS נשלחה למטופלת')}
 function reviewUpdate(){document.getElementById('upStatus').innerHTML='<div class="pl-badge" style="background:#e6f9f0;color:#0a7c42;padding:5px 11px">נצפה · נשלח למטופלת אישור שהדיווח נצפה</div>';}
+function openUpdate(){document.getElementById('updatePanel').style.display='block';window.scrollTo(0,0);}
+function closeUpdate(){document.getElementById('updatePanel').style.display='none';}
+function updLogAdd(txt){document.getElementById('updLog').innerHTML+='<div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#0a7c42;font-weight:600;padding:4px 0"><span>&#10003;</span>'+txt+'</div>';markCardReviewed();}
+function updReassure(){document.getElementById('reassureBox').style.display='block';}
+function updSendReassure(){document.getElementById('reassureBox').style.display='none';updLogAdd('נשלחה הודעת הרגעה למטופלת');}
+function updAgenda(b){b.classList.add('upd-done');b.textContent='נוסף לסדר היום של הביקור: רגישות בשדיים (שבוע 4)';updLogAdd('נוסף לסדר היום של הביקור');}
+function updCheckin(b){b.classList.add('upd-done');b.textContent='התבקש עדכון בעוד שבועיים';updLogAdd('התבקש עדכון בעוד שבועיים');}
+function updCopy(b){var t=document.getElementById('updEhr').innerText;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t);}b.textContent='הועתק!';setTimeout(function(){b.textContent='העתקה'},1500);}
+function markCardReviewed(){var e=document.getElementById('upStatus');if(e)e.innerHTML='<div class="pl-badge" style="background:#e6f9f0;color:#0a7c42;padding:5px 11px">נצפה</div>';}
 function showTwoFactor(){document.getElementById('loginScreen').style.display='none';document.getElementById('twoFactorScreen').style.display='block'}
 function completeLogin(){document.getElementById('twoFactorScreen').style.display='none';document.getElementById('patientList').style.display='block'}
 function sendFeedback(){var t=document.getElementById('feedbackText');if(t.value.trim()){alert('תודה! המשוב נשלח לצוות.');t.value=''}}
