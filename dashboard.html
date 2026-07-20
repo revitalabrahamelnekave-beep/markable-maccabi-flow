@@ -474,6 +474,16 @@ body{font-family:"Segoe UI",Arial,sans-serif;font-size:13px;line-height:1.45;bac
   </div>
 </div>
 
+<!-- VISIT FOCUS: what the patient marked (shown first) -->
+<div class="card" id="goalsCard" style="background:linear-gradient(270deg,#faf0f7,#fff);border:1.5px solid #f0d3e7;border-right:4px solid #D1409C;padding:13px 16px;margin-bottom:12px">
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <span style="font-size:9px;font-weight:800;color:#D1409C;letter-spacing:.3px;background:#f9e3f1;padding:3px 8px;border-radius:5px">מה חשוב לה</span>
+    <span style="font-size:13px;font-weight:800;color:#B22F84;white-space:nowrap">מיקוד הביקור, כפי שסימנה המטופלת:</span>
+    <span id="goalsChips"></span>
+    <span id="goalsQuote" style="font-size:11.5px;color:#777;font-style:italic"></span>
+  </div>
+</div>
+
 <!-- DELTA STRIP: what changed since last visit -->
 <div class="card" id="deltaStrip" style="border-right:4px solid #D1409C;padding:10px 14px;margin-bottom:12px">
   <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
@@ -486,15 +496,6 @@ body{font-family:"Segoe UI",Arial,sans-serif;font-size:13px;line-height:1.45;bac
 <div class="card baseline-only" id="baselineBanner" style="display:none;background:#eff6ff;border:1px solid #bcd7f5;margin-bottom:12px">
   <div style="font-size:13px;font-weight:700;color:#003B7B;margin-bottom:4px">בסיס נקבע · ביקור ראשון · טרם החל טיפול</div>
   <div style="font-size:12px;color:#555;line-height:1.5">זהו קו הבסיס של מיכל לפני תחילת הטיפול. אין עדיין מגמה. מהמעקב הבא ואילך הדוח יציג את המגמה לאורך זמן, והנתונים כאן ממקדים את הפגישה הראשונה.</div>
-</div>
-
-<!-- VISIT FOCUS: what the patient marked in the app -->
-<div class="card" id="goalsCard" style="border-right:4px solid #D1409C;padding:11px 14px;margin-bottom:12px">
-  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-    <span style="font-size:12px;font-weight:700;color:#D1409C;white-space:nowrap">מיקוד הביקור, כפי שסימנה המטופלת:</span>
-    <span id="goalsChips"></span>
-    <span id="goalsQuote" style="font-size:11.5px;color:#777;font-style:italic"></span>
-  </div>
 </div>
 
 <!-- 2. COPY TO CHART -->
