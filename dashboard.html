@@ -158,6 +158,12 @@ body{font-family:"Segoe UI",Arial,sans-serif;font-size:13px;line-height:1.45;bac
 .upd-done{background:#e6f9f0 !important;border-color:#bce5ca !important;color:#0a7c42 !important}
 .upd-done::before{background:#0a7c42 !important}
 .pl-back:hover{border-color:#D1409C;color:#D1409C}
+.gpri{background:#fff;border:1px solid #f0e2ea;border-radius:10px;padding:9px 12px;margin-bottom:7px}
+.gpri:last-child{margin-bottom:0}
+.gpri-top{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.gpri-name{font-size:13.5px;font-weight:800;color:#B22F84}
+.gpri-goal{font-size:12px;color:#D1409C;font-weight:600}
+.gpri-detail{font-size:11.5px;color:#555;line-height:1.5;margin-top:3px}
 </style>
 </head>
 <body>
@@ -476,12 +482,12 @@ body{font-family:"Segoe UI",Arial,sans-serif;font-size:13px;line-height:1.45;bac
 
 <!-- VISIT FOCUS: what the patient marked (shown first) -->
 <div class="card" id="goalsCard" style="background:linear-gradient(270deg,#faf0f7,#fff);border:1.5px solid #f0d3e7;border-right:4px solid #D1409C;padding:13px 16px;margin-bottom:12px">
-  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-    <span style="font-size:9px;font-weight:800;color:#D1409C;letter-spacing:.3px;background:#f9e3f1;padding:3px 8px;border-radius:5px">מה חשוב לה</span>
-    <span style="font-size:13px;font-weight:800;color:#B22F84;white-space:nowrap">מיקוד הביקור, כפי שסימנה המטופלת:</span>
-    <span id="goalsChips"></span>
-    <span id="goalsQuote" style="font-size:11.5px;color:#777;font-style:italic"></span>
+  <div style="display:flex;align-items:center;gap:9px;margin-bottom:11px">
+    <span style="font-size:9px;font-weight:800;color:#fff;letter-spacing:.3px;background:#D1409C;padding:4px 9px;border-radius:5px">מה חשוב לה</span>
+    <span style="font-size:13.5px;font-weight:800;color:#B22F84">מיקוד הביקור, במילים שלה</span>
   </div>
+  <div id="goalsList"></div>
+  <div id="goalsQuote" style="font-size:12px;color:#666;font-style:italic;margin-top:10px;padding-top:9px;border-top:1px solid #f6dcec"></div>
 </div>
 
 <!-- DELTA STRIP: what changed since last visit -->
@@ -793,6 +799,10 @@ var VISITS = {
   deltaLabel:'ביקור ראשון:',
   delta:'בסיס נקבע · אין עדיין מגמה · מהמעקב הבא הדוח יציג את המגמה לאורך זמן',
   goals:['גלי חום','שינה'], quote:'"הכי מפריעים לי גלי החום, ואני כמעט לא ישנה."',
+  priorities:[
+    {n:'גלי חום',goal:'רוצה לשלוט בהם',detail:'8/10, כמה פעמים ביום ומעירים אותה בלילה.'},
+    {n:'שינה',goal:'רוצה לישון ברצף',detail:'מתעוררת 2-3 פעמים בלילה ומתקשה להירדם שוב.'}
+  ],
   ehr:[
     '[מקור: Markable, כלי מעקב בריאותי מבוסס דיווח עצמי. אינו מכשיר רפואי | ביקור ראשון | 12.01.2026]',
     '[סולם 0-10, דיווח עצמי: תסמינים 10=חמור ביותר; שינה/אנרגיה/מצב רוח 10=מיטבי]',
@@ -809,6 +819,10 @@ var VISITS = {
   deltaLabel:'מאז הביקור הקודם:',
   delta:'גלי חום ירדו מ-8 ל-5 · רגישות בשדיים מדווחת משבוע 2 · שינה ואנרגיה ללא שינוי · לא דווחו תסמיני דגל אדום',
   goals:['גלי חום','רגישות בשדיים'], quote:'"גלי החום קצת ירדו. הרגישות בשדיים חדשה לי ורציתי לשאול עליה."',
+  priorities:[
+    {n:'גלי חום',goal:'רוצה שימשיכו לרדת',detail:'עדיין כמה פעמים ביום, מפריע בעבודה. שבוע 4 לטיפול.'},
+    {n:'רגישות בשדיים',goal:'רוצה לדעת אם הרגישות החדשה תקינה',detail:'חדשה מאז תחילת המדבקה לפני כשבועיים, קלה, בשני הצדדים.'}
+  ],
   adhNote:'4 דיווחים שבועיים',
   rangeNote:'מעקב 2 · שבועות 0-4 · מגמה ראשונית, שבועות ראשונים לטיפול',
   weeks:[0,2,4],
@@ -860,6 +874,10 @@ var VISITS = {
   deltaLabel:'מאז הביקור הקודם:',
   delta:'VMS יציב ברמה נמוכה · שינה ללא שינוי · מצב רוח במגמת עלייה · לא דווחו תסמיני דגל אדום חדשים',
   goals:['שינה','ערפול מוחי'], quote:'"גלי החום כבר לא הבעיה. השינה והריכוז כן."',
+  priorities:[
+    {n:'שינה',goal:'רוצה להירדם מהר יותר ולקום רעננה',detail:'קושי בהירדמות רוב הלילות, כ-45 דקות עד ההירדמות. נמשך 4+ חודשים, ללא שינוי בטיפול.'},
+    {n:'ערפול מוחי',goal:'רוצה להרגיש חדה וממוקדת שוב',detail:'קושי בשליפת מילים ובריכוז בעבודה, רוב הימים.'}
+  ],
   adhNote:'14 דיווחים שבועיים',
   rangeNote:'מעקב 5 · שבועות 0-15 מתחילת הטיפול',
   weeks:[0,2,4,6,8,10,12,15],
@@ -1034,7 +1052,7 @@ function setVisit(n){
   if(q=document.getElementById('hrtInfo')) q.textContent=v.hrtInfo;
   if(q=document.getElementById('deltaLabel')) q.textContent=v.deltaLabel;
   if(q=document.getElementById('deltaContent')) q.textContent=v.delta;
-  if(q=document.getElementById('goalsChips')) q.innerHTML=v.goals.map(function(g){return '<span class="badge" style="background:rgba(209,64,156,.08);color:#B22F84;font-weight:700;margin-inline-end:4px">'+esc(g)+'</span>';}).join('');
+  if(q=document.getElementById('goalsList')) q.innerHTML=(v.priorities||[]).map(function(p){return '<div class="gpri"><div class="gpri-top"><span class="gpri-name">'+esc(p.n)+'</span><span class="gpri-goal">'+esc(p.goal)+'</span></div><div class="gpri-detail">'+esc(p.detail)+'</div></div>';}).join('');
   if(q=document.getElementById('goalsQuote')) q.textContent=v.quote||'';
   if(q=document.getElementById('ehrText')) q.innerText=v.ehr;
   if(isBaseline) return;
